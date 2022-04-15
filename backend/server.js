@@ -2,6 +2,7 @@ const express = require('express');
 const colors = require('colors');
 const dotenv = require('dotenv');
 const userRouter = require('./routes/userRoutes');
+const ticketRouter = require('./routes/ticketRoutes');
 const AppError = require('./utils/AppError');
 const GobalErrorHandler = require('./controllers/errorController');
 const connectDB = require('./config/db');
@@ -20,6 +21,7 @@ app.get('/', (req, res, next) => {
 });
 
 app.use('/api/users', userRouter);
+app.use('/api/tickets', ticketRouter);
 
 app.use('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 400));

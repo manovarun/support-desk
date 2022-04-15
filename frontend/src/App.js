@@ -7,6 +7,10 @@ import NotFound from './pages/NotFound';
 import Register from './pages/Register';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import NewTicket from './pages/NewTicket';
+import PrivateRoute from './components/PrivateRoute';
+import Tickets from './pages/Tickets';
+import Ticket from './pages/Ticket';
 
 const App = () => {
   return (
@@ -18,6 +22,15 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/new-ticket" element={<PrivateRoute />}>
+              <Route path="/new-ticket" element={<NewTicket />} />
+            </Route>
+            <Route path="/tickets" element={<PrivateRoute />}>
+              <Route path="/tickets" element={<Tickets />} />
+            </Route>
+            <Route path="/ticket/:ticketId" element={<PrivateRoute />}>
+              <Route path="/ticket/:ticketId" element={<Ticket />} />
+            </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
