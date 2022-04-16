@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const colors = require('colors');
 const dotenv = require('dotenv');
 const userRouter = require('./routes/userRoutes');
@@ -23,9 +24,22 @@ app.get('/', (req, res, next) => {
 app.use('/api/users', userRouter);
 app.use('/api/tickets', ticketRouter);
 
-app.use('*', (req, res, next) => {
-  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 400));
-});
+//Serve Frontend
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../frontend/build')));
+
+  app.get('*', (req, res) =>
+    res.sendFile(__dirname, '../', 'frontend', 'build', 'index.html')
+  );
+} else {
+  app.get('/', (req, res) => {
+    res.status(200).json({ message: 'Welcome to the Support Desk API' });
+  });
+}
+
+// app.use('*', (req, res, next) => {
+//   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 400));
+// });
 
 app.use(GobalErrorHandler);
 
